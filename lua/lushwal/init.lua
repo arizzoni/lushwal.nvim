@@ -120,6 +120,12 @@ setmetatable(M, {
 					end)
 				end
 			end
+
+			-- Merge lush overrides in the config file:
+			if cfg.lush_overrides ~= nil then
+				scheme = lush.extends({scheme}).with(cfg.lush_overrides)
+			end
+
 			return scheme
 		elseif key == "colors" then
 			if #vim.tbl_keys(colors) then

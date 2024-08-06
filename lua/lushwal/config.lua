@@ -36,5 +36,7 @@ return {
 		vim_signify = false,
 		vim_sneak = false,
 		which_key_nvim = false,
+		personal = false,
 	},
+	lush_overrides = nil,
 }

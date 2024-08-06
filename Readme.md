@@ -56,6 +56,7 @@ Set `vim.g.lushwal_configuration` (in Lua) or `g:lushwal_configuration` (in Vims
 	compile_to_vimscript = true,
 	terminal_colors = false,
 	color_overrides = nil,
+	lush_overrides = nil,
 	addons = {
 		ale = false,
 		barbar = false,
@@ -89,7 +90,7 @@ Set `vim.g.lushwal_configuration` (in Lua) or `g:lushwal_configuration` (in Vims
 		vim_signify = false,
 		vim_sneak = false,
 		which_key_nvim = false,
-	}
+	},
 }
 ~~~
 
@@ -129,12 +130,12 @@ In addition to the standard ANSI terminal colors, Lushwal uses some custom color
 ```lua
 vim.g.lushwal_configuration = {
 	color_overrides = function(colors)
-		local overrides = {
+		local color_overrides = {
 			red = colors.color5,
 			orange = colors.color1,
 			amaranth = colors.color5.mix(colors.color4, 34).saturate(46).darken(5),
 		}
-		return vim.tbl_extend("force", colors, overrides)
+		return vim.tbl_extend("force", colors, color_overrides)
 	end,
 	-- ...
 }
@@ -151,6 +152,28 @@ The defaults for these generated colors look pretty good in the pywal themes I t
 	pink = color4.rotate(65).li(45).mix(color5, 50), -- Pink
 	amaranth = color1.mix(color4, 34).saturate(46).darken(5),
 	brown = color1.mix(color5, 15), -- Brown
+}
+```
+
+### Lush Overrides
+In addition to changing the color directly, it is also possible to use the powerful `lush` backend to customize the different highlight groups further. The overrides generated here are merged last and will overwrite previous definitions.
+
+#### Example
+
+```lua
+vim.g.lushwal_configuration = {
+	lush_overrides = function(colors)
+		local lush_overrides = {
+			Comment({ gui = "italic" }),
+			SpellRare({ fg = colors.color14, bg = colors.background, gui = "underline" }),
+			Number({ fg = require("lush").hsl(208, 90, 30) }),
+			Float({ Number }),
+			Conditional({ gui = "bold" }),
+		}
+		end
+		return lush_overrides
+	end,
+	-- ...
 }
 ```
 
